@@ -2,7 +2,7 @@
 table_name = ARGV[0]
 
 require 'csv'
-puts "<pre><code>"
+puts "<div class='hightlight'><pre><code>"
 puts "interface #{table_name.split('_').collect(&:capitalize).join} {"
 CSV.parse(STDIN.read, headers: true)  do |row|
   fieldType = "unknown"
@@ -23,4 +23,4 @@ CSV.parse(STDIN.read, headers: true)  do |row|
   puts "  #{row['Field']}: #{fieldType}"
 end
 puts "}"
-puts "</pre></code>"
+puts "</code></pre></div>"
