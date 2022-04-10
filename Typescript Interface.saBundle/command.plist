@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>author</key>
+	<string>Kurt Maine</string>
+	<key>bundleVersion</key>
+	<integer>2</integer>
+	<key>category</key>
+	<string>Generate</string>
+	<key>command</key>
+	<string># Error and SP file handling from bundles by Hans-Jörg Bibiko
+
+# Output the first portion of the HTML file
+cat "$SP_BUNDLE_PATH/Support/header.html"
+
+# Check if a table is selected
+if [ -z "$SP_SELECTED_TABLE" ]; then
+	# If no table is selected, output an error to an HTML Tooltip and exit
+	echo "&lt;div class="alert alert-danger"&gt;Please select a table.&lt;/div&gt;"
+	exit $SP_BUNDLE_EXIT_SHOW_AS_HTML_TOOLTIP
+fi
+
+# Remove handshake files before starting
+rm -f "$SP_QUERY_RESULT_FILE"
+rm -f "$SP_QUERY_FILE"
+rm -f "$SP_QUERY_RESULT_STATUS_FILE"
+
+
+# Query the table description
+echo "DESCRIBE \`${SP_SELECTED_TABLE//\`/\`\`}\`" &gt; "$SP_QUERY_FILE"
+open "sequelace://$SP_PROCESS_ID@passToDoc/ExecuteQuery/csv"
+
+# Wait for Sequel Ace; status file will be written to disk if query finished
+while [ 1 ]
+do
+	[[ -e "$SP_QUERY_RESULT_STATUS_FILE" ]] &amp;&amp; break
+	sleep 0.1
+done
+
+# Check returned status 0 := no error; 1 := error
+RES=$(cat "$SP_QUERY_RESULT_STATUS_FILE")
+[[ ! -e "$SP_QUERY_RESULT_FILE" ]] &amp;&amp; RES=1
+
+
+# Check if a SQL error has occured
+if [ "$RES" == "0" ]; then
+	# If no SQL error occured, pipe the result file to the Ruby script
+	cat "$SP_QUERY_RESULT_FILE" | /usr/bin/ruby "$SP_BUNDLE_PATH/Support/parseTableData.rb" "$SP_SELECTED_TABLE"
+else
+	# If error, message will be saved in result file
+	echo "&lt;div class="alert alert-danger"&gt;"
+	cat "$SP_QUERY_RESULT_FILE"
+	echo "&lt;/div&gt;"
+	rm -f "$SP_QUERY_RESULT_FILE"
+	rm -f "$SP_QUERY_FILE"
+	rm -f "$SP_QUERY_RESULT_STATUS_FILE"
+	exit $SP_BUNDLE_EXIT_SHOW_AS_HTML_TOOLTIP
+fi
+
+# Remove handshake files now that we're done
+rm -f "$SP_QUERY_RESULT_FILE"
+rm -f "$SP_QUERY_FILE"
+rm -f "$SP_QUERY_RESULT_STATUS_FILE"
+
+# Output the end of the HTML
+echo "&lt;/div&gt;"
+echo "&lt;/body&gt;&lt;/html&gt;"
+</string>
+	<key>contact</key>
+	<string>uggcf://tvguho.pbz/ovaynof/frdhry-npr-glcrfpevcg-ohaqyrf</string>
+	<key>description</key>
+	<string>Generate a Typescript interfaces from the currently selected table.
+
+This bundle is not all-encompassing, it is simply meant to save time when creating interfaces. Some manual corrections may need to made to the interface that is generated for you.</string>
+	<key>keyEquivalent</key>
+	<string></string>
+	<key>name</key>
+	<string>Typescript Interface</string>
+	<key>output</key>
+	<string>showashtml</string>
+	<key>scope</key>
+	<string>general</string>
+	<key>tooltip</key>
+	<string>Generate a Typescript Interace from the currently selected table</string>
+	<key>uuid</key>
+	<string>8E6D3915-3FBC-4014-B1F6-059182C3FC11</string>
+</dict>
+</plist>
