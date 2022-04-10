@@ -74,7 +74,7 @@ cat "$SP_BUNDLE_PATH/Support/footer.html"</string>
 	<key>contact</key>
 	<string>uggcf://tvguho.pbz/ovaynof/frdhry-npr-glcrfpevcg-ohaqyrf</string>
 	<key>description</key>
-	<string>Generate a Typescript interfaces from the currently selected table.
+	<string>Generate Typescript interaces from the currently selected tables.
 
 This bundle is not all-encompassing, it is simply meant to save time when creating interfaces. Some manual corrections may need to made to the interface that is generated for you.</string>
 	<key>keyEquivalent</key>
@@ -86,7 +86,7 @@ This bundle is not all-encompassing, it is simply meant to save time when creati
 	<key>scope</key>
 	<string>general</string>
 	<key>tooltip</key>
-	<string>Generate a Typescript Interace from the currently selected table</string>
+	<string>Generate Typescript interaces from the currently selected tables</string>
 	<key>uuid</key>
 	<string>8E6D3915-3FBC-4014-B1F6-059182C3FC11</string>
 </dict>
