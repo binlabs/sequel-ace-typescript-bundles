@@ -2,8 +2,11 @@
 table_name = ARGV[0]
 
 require 'csv'
-puts "<div class='hightlight'><pre><code>"
-puts "interface #{table_name.split('_').collect(&:capitalize).join} {"
+
+interface_name = table_name.split('_').collect(&:capitalize).join
+puts "<div class='clipboard'><button type='button' class='btn-clipboard' title='Copy to clipboard' data-target-id='#{interface_name}'>Copy</button></div>"
+puts "<div class='hightlight'><pre><code id='#{interface_name}'>"
+puts "interface #{interface_name} {"
 CSV.parse(STDIN.read, headers: true)  do |row|
   fieldType = "unknown"
   # Lots of if statements, couldn't get a shorthand OR to work
