@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>author</key>
+	<string>Kurt Maine</string>
+	<key>bundleVersion</key>
+	<integer>2</integer>
+	<key>category</key>
+	<string>Generate</string>
+	<key>command</key>
+	<string># Error and SP file handling from bundles by Hans-Jörg Bibiko
+# Multi-table support and query function from bundles by Colin Viebrock (github.com/cviebrock/sequel-pro-laravel-export)
+
+# Output the first portion of the HTML file
+cat "$SP_BUNDLE_PATH/Support/header.html"
+
+delete_temp_files()
+{
+	rm -f "$SP_QUERY_RESULT_FILE"
+	rm -f "$SP_QUERY_FILE"
+	rm -f "$SP_QUERY_RESULT_STATUS_FILE"
+}
+
+execute_sql()
+{
+    # execute the SQL statement; the result will be available in the file $SP_QUERY_RESULT_FILE
+    open "sequelace://$SP_PROCESS_ID@passToDoc/ExecuteQuery/csv"
+
+    # wait for results; status file will be written to disk if query was finished
+    while [ 1 ]
+    do
+        [[ -e "$SP_QUERY_RESULT_STATUS_FILE" ]] &amp;&amp; break
+        sleep 0.01
+    done
+
+    # check for errors
+    if [ `cat "$SP_QUERY_RESULT_STATUS_FILE"` == 1 ]; then
+        echo "&lt;div class='alert alert-danger'&gt;&lt;h4 class='alert-heading'&gt;SQL Error:&lt;/h4&gt;&lt;pre&gt;&lt;code&gt;"
+        cat "$SP_QUERY_RESULT_FILE"
+        echo "&lt;/code&gt;&lt;/pre&gt;"
+        exit "$SP_BUNDLE_EXIT_SHOW_AS_HTML"
+    fi
+}
+
+# Check if a table is selected
+if [ -z "$SP_SELECTED_TABLES" ]; then
+    echo "&lt;h2 class='err'&gt;Error&lt;/h2&gt;&lt;p&gt;No table selected.&lt;/p&gt;"
+    exit "$SP_BUNDLE_EXIT_SHOW_AS_HTML"
+fi
+
+# Remove temporary files before starting
+delete_temp_files
+
+# Assign selected tables to a variable
+read -r -a tables &lt;&lt;&lt; "$SP_SELECTED_TABLES"
+
+# Loop through tables
+for table in "${tables[@]}"
+do
+	# Query the table description
+	echo "DESCRIBE \`${table}\`" &gt; "$SP_QUERY_FILE"
+	execute_sql
+	
+	cat "$SP_QUERY_RESULT_FILE" | /usr/bin/ruby "$SP_BUNDLE_PATH/Support/parseTableData.rb" "${table}"
+	delete_temp_files
+done
+
+# Remove temp files now that we're done
+delete_temp_files
+
+# Output the end of the HTML
+cat "$SP_BUNDLE_PATH/Support/footer.html"</string>
+	<key>contact</key>
+	<string>uggcf://tvguho.pbz/ovaynof/frdhry-npr-glcrfpevcg-ohaqyrf</string>
+	<key>description</key>
+	<string>Generate a Sequelize Model with an Interface in Typescript from the currently selected tables.
+
+This bundle is not all-encompassing, it is simply meant to save time when creating Sequelize models. Some manual corrections may need to be made to the models or interfaces that are generated for you.</string>
+	<key>name</key>
+	<string>Typescript Sequelize Model with Interface</string>
+	<key>output</key>
+	<string>showashtml</string>
+	<key>scope</key>
+	<string>general</string>
+	<key>tooltip</key>
+	<string>Generate a Sequelize Model with an Interface in Typescript from the currently selected tables</string>
+	<key>uuid</key>
+	<string>7C70DD06-5D59-44AB-88E5-D376D96F59D0</string>
+</dict>
+</plist>
