@@ -73,7 +73,7 @@ CSV.parse(csv_data, headers: true)  do |row|
   # Lots of if statements, couldn't get a shorthand OR to work
   dataType = data_type_string if row['Type'].include? "text"
   dataType = data_type_string if row['Type'].include? "char"
-  dataType = data_type_string if row['Type'].include? "json"
+  dataType = data_type_json if row['Type'].include? "json"
   dataType = data_type_date if row['Type'].include? "date"
   dataType = data_type_date if row['Type'].include? "datetime"
   dataType = data_type_fixed if row['Type'].include? "fixed"
@@ -115,45 +115,3 @@ puts "export default #{class_name}"
 puts single_return
 # Print the closing of the HTML code wrapper
 puts "</code></pre></div>"
-
-# import { DataTypes, Model, InitOptions, ModelAttributes, literal } from 'sequelize'
-# import sequelize from 'db/all_website_data'
-# import { AllHeadlineIface, AllHeadlineUpdate } from 'all_headline/model'
-
-# const tableName = 'all_website_data'
-
-# const columns: ModelAttributes = {
-#   articleDate: { allowNull: true, defaultValue: null, type: DataTypes.DATE },
-#   createdAt: { allowNull: false, defaultValue: literal('NOW()'), type: DataTypes.DATE },
-#   flaggedForReview: { allowNull: true, defaultValue: '', type: DataTypes.BOOLEAN },
-#   fud: { allowNull: true, defaultValue: '', type: DataTypes.BOOLEAN },
-#   id: { autoIncrement: true, primaryKey: true, type: DataTypes.INTEGER.UNSIGNED },
-#   isEvent: { allowNull: true, defaultValue: false, type: DataTypes.BOOLEAN },
-#   isIndicator: { allowNull: true, defaultValue: false, type: DataTypes.BOOLEAN },
-#   isNarrative: { allowNull: true, defaultValue: false, type: DataTypes.BOOLEAN },
-#   isPrediction: { allowNull: true, defaultValue: false, type: DataTypes.BOOLEAN },
-#   lastApprovedAt: { allowNull: true, defaultValue: null, type: DataTypes.DATE },
-#   lastReviewedAt: { allowNull: true, defaultValue: null, type: DataTypes.DATE },
-#   marketMoving: { allowNull: true, defaultValue: '', type: DataTypes.BOOLEAN },
-#   narrative: { allowNull: true, defaultValue: false, type: DataTypes.STRING },
-#   onChainMetric: { allowNull: true, defaultValue: false, type: DataTypes.BOOLEAN },
-#   primaryKeyword: { allowNull: true, defaultValue: '', type: DataTypes.STRING },
-#   segment: { allowNull: true, defaultValue: '', type: DataTypes.STRING },
-#   sentiment: { allowNull: true, defaultValue: '', type: DataTypes.STRING },
-#   sentimentAnalyzed: { allowNull: true, defaultValue: '', type: DataTypes.BOOLEAN },
-#   sentimentScore: { allowNull: true, defaultValue: '', type: DataTypes.FLOAT },
-#   title: { allowNull: true, defaultValue: '', type: DataTypes.STRING },
-#   url: { allowNull: true, defaultValue: '', type: DataTypes.STRING },
-# }
-
-# const options: Omit<InitOptions<Model>, 'sequelize'> = {
-#   createdAt: false,
-#   modelName: tableName,
-#   updatedAt: false,
-# }
-
-# class Headline extends Model<AllHeadlineIface, AllHeadlineUpdate> {}
-
-# Headline.init(columns, { ...options, sequelize })
-
-# export default Headline
