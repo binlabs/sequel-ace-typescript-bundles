@@ -2,7 +2,17 @@
 
 A collection of bundles for Sequel Ace meant to aide in development of Typescript projects.
 
-The first bundle allows you to generate Typescript interfaces from the currently selected tables. An additional bundle is in the works that will generate a Sequelize model from the selected tables.
+## Bundles
+
+There are currently two Typescript-related bundles whose descriptions you can see below.
+
+### Typescript Interface
+
+This bundle allows you to generate a Typescript interface from the table(s) that you have selected.
+
+### Typescript Sequelize Model with Interface
+
+This bunle allows you to generate a [Typescript Sequelize](https://github.com/RobinBuschmann/sequelize-typescript) model and an accompanying interface, which will be used to instantiate a class for the model.
 
 ## Installation and Usage
 
