@@ -10,10 +10,14 @@ puts "<div class='highlight'><pre><code id='#{interface_name}'>"
 puts "interface #{interface_name}Iface {"
 CSV.parse(STDIN.read, headers: true)  do |row|
   # TODO: Lots of if statements, try to find a better way to do this
+  # Field Types
   fieldType = "unknown"
   fieldType = "string" if row['Type'].include? "text"
   fieldType = "string" if row['Type'].include? "char"
   fieldType = "string" if row['Type'].include? "json"
+  fieldType = "string" if row['Type'].include? "binary"
+  fieldType = "string" if row['Type'].include? "blob"
+  fieldType = "string" if row['Type'].include? "time"
   fieldType = "Date" if row['Type'].include? "date"
   fieldType = "DateTime" if row['Type'].include? "datetime"
   fieldType = "number" if row['Type'].include? "fixed"
@@ -22,8 +26,10 @@ CSV.parse(STDIN.read, headers: true)  do |row|
   fieldType = "number" if row['Type'].include? "dec"
   fieldType = "number" if row['Type'].include? "doub"
   fieldType = "number" if row['Type'].include? "numeric"
+  fieldType = "number" if row['Type'].include? "real"
   fieldType = "number" if row['Type'].include? "year"
   fieldType = "boolean" if row['Type'].include? "tinyint"
+  fieldType = "boolean" if row['Type'].include? "bit"
   fieldType = "boolean" if row['Type'].include? "bool"
   puts "  #{row['Field']}: #{fieldType}"
 end

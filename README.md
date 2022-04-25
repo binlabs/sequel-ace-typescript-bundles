@@ -12,7 +12,7 @@ This bundle allows you to generate a Typescript interface from the table(s) that
 
 ### Typescript Sequelize Model with Interface
 
-From the table(s) that you have selected, this bundle allows you to generate a [Typescript Sequelize](https://github.com/RobinBuschmann/sequelize-typescript) model and an accompanying interface, which will be used to instantiate a class for the model.
+From the table(s) that you have selected, this bundle allows you to generate a [Sequelize](https://github.com/sequelize/sequelize) model and an accompanying interface, which will be used to instantiate a class for the model.
 
 ## Installation and Usage
 
